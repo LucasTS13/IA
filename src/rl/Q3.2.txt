@@ -1,0 +1,4 @@
+MountainCar-v0
+
+python -m rl.ql_train --agent tabular --env_name "MountainCar-v0" --num_episodes 7000 --learning_rate 0.1 --gamma 0.99
+python -m rl.ql_play --agent tabular --env_name MountainCar-v0 --num_episodes 5 --render

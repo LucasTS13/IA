@@ -5,10 +5,14 @@ from rl.environment import Environment
 
 from rl.qll_taxi_feature_extractor import TaxiFeatureExtractor
 from rl.qll_blackjack_feature_extractor import BlackjackFeatureExtractor
+from rl.qll_cliffwalking_feature_extractor import CliffWalkingFeatureExtractor
+from rl.qll_frozenlake_feature_extractor import FrozenLakeFeatureExtractor
 
 feature_extractors_dict = {
     "Blackjack-v1": BlackjackFeatureExtractor,
-    "Taxi-v3": TaxiFeatureExtractor
+    "Taxi-v3": TaxiFeatureExtractor,
+    "CliffWalking-v0": CliffWalkingFeatureExtractor,
+    "FrozenLake-v1": FrozenLakeFeatureExtractor,
 }
 
 

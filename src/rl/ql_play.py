@@ -13,6 +13,9 @@ import gymnasium as gym
 
 from rl.environment_blackjack import BlackjackEnvironment
 from rl.environment_taxi import TaxiEnvironment
+from rl.environment_cliffwalking import CliffWalkingEnvironment
+from rl.environment_frozenlake import FrozenLakeEnvironment
+from rl.environment_mountaincar import MountainCarEnvironment
 from rl.qlt import QLearningAgentTabular
 from rl.qll import QLearningAgentLinear
 from rl.qln import QLearningAgentNeural
@@ -25,6 +28,9 @@ ActionSelector = Callable[[object, object, object], int]
 ENVIRONMENT_WRAPPERS: Dict[str, EnvironmentWrapper] = {
     "Taxi-v3": TaxiEnvironment,
     "Blackjack-v1": BlackjackEnvironment,
+    "CliffWalking-v0": CliffWalkingEnvironment,
+    "FrozenLake-v1": FrozenLakeEnvironment,
+    "MountainCar-v0": MountainCarEnvironment
 }
 
 
@@ -116,7 +122,7 @@ def main(argv: Optional[list] = None) -> int:
     parser = argparse.ArgumentParser(description="Run a trained Q-Learning agent")
     parser.add_argument("--agent", choices=AGENT_REGISTRY.keys(), default="tabular",
                         help="Agent variant to load (tabular, linear, neural)")
-    parser.add_argument("--env_name", type=str, default="Taxi-v3", help="Environment name")
+    parser.add_argument("--env_name", type=str, choices=ENVIRONMENT_WRAPPERS.keys(), help="Environment name")
     parser.add_argument("--num_episodes", type=int, default=5, help="Episodes to play")
     parser.add_argument("--max_steps", type=int, default=500, help="Maximum steps per episode")
     parser.add_argument("--render", action="store_true",

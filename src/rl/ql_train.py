@@ -11,6 +11,7 @@ import numpy as np
 from scipy.signal import savgol_filter
 from timeit import default_timer as timer
 
+
 if __package__ is None or __package__ == "":
     package_root = Path(__file__).resolve().parents[1]
     if str(package_root) not in sys.path:
@@ -18,6 +19,9 @@ if __package__ is None or __package__ == "":
 
 from rl.environment_blackjack import BlackjackEnvironment
 from rl.environment_taxi import TaxiEnvironment
+from rl.environment_cliffwalking import CliffWalkingEnvironment
+from rl.environment_frozenlake import FrozenLakeEnvironment
+from rl.environment_mountaincar import MountainCarEnvironment
 from rl.qln import QLearningAgentNeural as QLearningAgentNeural
 from rl.qll import QLearningAgentLinear
 from rl.qlt import QLearningAgentTabular
@@ -28,9 +32,13 @@ AgentBuilder = Callable[[object, argparse.Namespace], object]
 TrainFn = Callable[[object, argparse.Namespace], Dict[str, Iterable[float]]]
 
 
-environment_dict: Dict[str, EnvironmentFactory] = {
+environment_dict = {
     "Blackjack-v1": BlackjackEnvironment,
     "Taxi-v3": TaxiEnvironment,
+    "CliffWalking-v0": CliffWalkingEnvironment,
+    "FrozenLake-v1": FrozenLakeEnvironment,
+    "MountainCar-v0": MountainCarEnvironment,
+
 }
 
 
@@ -176,7 +184,7 @@ def _prepare_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Train Q-Learning agents (tabular, linear, neural)")
     parser.add_argument("--agent", choices=agent_choices, default="tabular",
                         help="Agent variant to train")
-    parser.add_argument("--env_name", type=str, default="Taxi-v3", help="Environment name")
+    parser.add_argument("--env_name", type=str, choices=environment_dict, help="Environment name")
     parser.add_argument("--num_episodes", type=int, default=6000, help="Number of training episodes")
     parser.add_argument("--epsilon_decay_rate", type=float, default=0.0001, help="Epsilon decay rate")
     parser.add_argument("--learning_rate", type=float, default=0.7, help="Learning rate (alpha)")

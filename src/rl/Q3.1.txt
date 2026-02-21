@@ -1,0 +1,29 @@
+Blackjack-v1
+
+python -m rl.ql_train --agent tabular --env_name "Blackjack-v1" --num_episodes 100000 --learning_rate 0.1 --gamma 0.99
+python -m rl.ql_play --agent tabular --env_name Blackjack-v1 --render
+
+Hiperparâmetros Usados:
+Total de Episódios: 100.000
+Taxa de Aprendizado (alpha): 0.1
+Fator de Desconto (gamma): 0.99
+
+CliffWalking-v0
+
+python -m rl.ql_train --agent tabular --env_name "CliffWalking-v0" --num_episodes 10000 --learning_rate 0.1 --gamma 0.99
+python -m rl.ql_play --agent tabular --env_name CliffWalking-v0 --render
+
+Hiperparâmetros Usados:
+Total de Episódios: 10.000
+Taxa de Aprendizado (alpha): 0.1
+Fator de Desconto (gamma): 0.99
+
+FrozenLake-v1
+
+python -m rl.ql_train --agent tabular --env_name "FrozenLake-v1" --num_episodes 50000  --learning_rate 0.05 --gamma 0.95
+python -m rl.ql_play --agent tabular --env_name FrozenLake-v1 --render
+
+Hiperparâmetros Usados:
+Total de Episódios: 50.000
+Taxa de Aprendizado (alpha): 0.05
+Fator de Desconto (gamma): 0.95

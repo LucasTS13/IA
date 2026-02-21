@@ -1,0 +1,15 @@
+Blackjack-v1
+
+python -m rl.ql_train --agent linear --env_name "Blackjack-v1" --num_episodes 20000 --learning_rate 0.001 --gamma 0.99
+python -m rl.ql_play --agent linear --env_name Blackjack-v1
+
+CliffWalking-v0
+
+python -m rl.ql_train --agent linear --env_name "CliffWalking-v0" --num_episodes 5000 --learning_rate 0.1 --gamma 0.99
+python -m rl.ql_play --agent linear --env_name CliffWalking-v0
+
+
+FrozenLake-v1
+
+python -m rl.ql_train --agent linear --env_name "FrozenLake-v1" --num_episodes 20000 --learning_rate 0.05 --gamma 0.95
+python -m rl.ql_play --agent linear --env_name FrozenLake-v1
