@@ -99,7 +99,7 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def depthFirstSearch(problem):
+def depthFirstSearch(problem): #Q1
     """
     Search the deepest nodes in the search tree first.
 
@@ -112,13 +112,48 @@ def depthFirstSearch(problem):
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from util import Stack
+    pilha = Stack()
+    explorados = set()
+    estado_inicial = problem.getStartState()
+    pilha.push((estado_inicial, []))
 
-def breadthFirstSearch(problem):
+    while not pilha.isEmpty():
+        atual, caminho = pilha.pop()
+
+        if problem.isGoalState(atual):
+            return caminho
+
+        if atual not in explorados:
+            explorados.add(atual)
+            for proximo, movimento, _ in problem.expand(atual):
+                if proximo not in explorados:
+                    pilha.push((proximo, caminho + [movimento]))
+
+    return []
+
+def breadthFirstSearch(problem):  # Q2
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from util import Queue
+    fila = Queue()
+    explorados = set()
+    estado_inicial = problem.getStartState()
+    fila.push((estado_inicial, []))
+
+    while not fila.isEmpty():
+        atual, caminho = fila.pop()
+
+        if problem.isGoalState(atual):
+            return caminho
+
+        if atual not in explorados:
+            explorados.add(atual)
+            for proximo, movimento, _ in problem.expand(atual):
+                if proximo not in explorados:
+                    fila.push((proximo, caminho + [movimento]))
+
+    return []
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -127,11 +162,32 @@ def nullHeuristic(state, problem=None):
     """
     return 0
 
-def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+def aStarSearch(problem, heuristic=nullHeuristic): #Q3
+    """Search the node that has the lowest combined cost and heuristic first (A*)."""
+    from util import PriorityQueue
 
+    fronteira = PriorityQueue()
+    explorados = set()
+    estado_inicial = problem.getStartState()
+    custo_inicial = 0
+    heuristica_inicial = heuristic(estado_inicial, problem)
+    fronteira.push((estado_inicial, [], 0), custo_inicial + heuristica_inicial)
+
+    while not fronteira.isEmpty():
+        atual, caminho, custo = fronteira.pop()
+
+        if problem.isGoalState(atual):
+            return caminho
+
+        if atual not in explorados:
+            explorados.add(atual)
+            for proximo, movimento, custo_passos in problem.expand(atual):
+                if proximo not in explorados:
+                    novo_custo = custo + custo_passos
+                    prioridade = novo_custo + heuristic(proximo, problem)
+                    fronteira.push((proximo, caminho + [movimento], novo_custo), prioridade)
+
+    return []
 
 # Abbreviations
 bfs = breadthFirstSearch

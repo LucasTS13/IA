@@ -5,7 +5,7 @@ import util
 
 # Module Classes
 
-class TwoJarsState:
+class TwoJarsState: #Q8
     """
     This class represents a configuration of the two jars.
     """
@@ -39,8 +39,7 @@ class TwoJarsState:
         >>> TwoJarsState((1, 0)).isGoal()
         False
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.jars["J4"] == 2
 
     def legalMoves( self ):
         """
@@ -60,8 +59,20 @@ class TwoJarsState:
         >>> TwoJarsState((1, 3)).legalMoves()
         ['fillJ4', 'pourJ3intoJ4', 'emptyJ3', 'emptyJ4']
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        moves = []
+        if self.jars["J3"] < 3:
+            moves.append('fillJ3')
+        if self.jars["J4"] < 4:
+            moves.append('fillJ4')
+        if self.jars["J3"] > 0:
+            moves.append('emptyJ3')
+        if self.jars["J4"] > 0:
+            moves.append('emptyJ4')
+        if self.jars["J3"] > 0 and self.jars["J4"] < 4:
+            moves.append('pourJ3intoJ4')
+        if self.jars["J4"] > 0 and self.jars["J3"] < 3:
+            moves.append('pourJ4intoJ3')
+        return moves
 
     def result(self, move):
         """
@@ -74,8 +85,28 @@ class TwoJarsState:
         NOTE: This function *does not* change the current object.  Instead,
         it returns a new object.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        j4, j3 = self.jars["J4"], self.jars["J3"]
+        if move == 'fillJ3':
+            j3 = 3
+        elif move == 'fillJ4':
+            j4 = 4
+        elif move == 'emptyJ3':
+            j3 = 0
+        elif move == 'emptyJ4':
+            j4 = 0
+        elif move == 'pourJ3intoJ4':
+            space_in_j4 = 4 - j4
+            transfer = min(j3, space_in_j4)
+            j3 -= transfer
+            j4 += transfer
+        elif move == 'pourJ4intoJ3':
+            space_in_j3 = 3 - j3
+            transfer = min(j4, space_in_j3)
+            j4 -= transfer
+            j3 += transfer
+        else:
+            raise Exception("Invalid move: " + move)
+        return TwoJarsState((j4, j3))
 
     # Utilities for comparison and display
     def __eq__(self, other):
@@ -86,8 +117,7 @@ class TwoJarsState:
           >>> TwoJarsState((0, 1)) == TwoJarsState((1, 0)).result('pourJ4intoJ3')
           True
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.jars["J4"] == other.jars["J4"] and self.jars["J3"] == other.jars["J3"]
 
     def __hash__(self):
         return hash(str(self.jars))
@@ -96,8 +126,8 @@ class TwoJarsState:
         """
           Returns a display string for the maze
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        RESET = '\033[0m'
+        return f"J4: |{self.jars['J4']}|{RESET}\nJ3:  |{self.jars['J3']}|{RESET}"
 
     def __str__(self):
         return self.__getAsciiString()
